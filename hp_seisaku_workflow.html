@@ -1,0 +1,306 @@
+
+<style>
+  :root { --accent: #534AB7; --accent-light: #EEEDFE; --accent-dark: #3C3489; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { padding: 0; }
+  .wrap { padding: 16px 0 8px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab { padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--color-border-primary); background: transparent; color: var(--color-text-secondary); font-size: 13px; cursor: pointer; font-weight: 500; transition: all .2s; }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .phase { display: none; }
+  .phase.active { display: block; }
+  .phase-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
+  .step { border: 1px solid var(--color-border-tertiary); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; background: var(--color-background-secondary); transition: background .15s; }
+  .step-head:hover { background: var(--color-background-tertiary); }
+  .num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .arrow { font-size: 11px; color: var(--color-text-tertiary); transition: transform .2s; }
+  .step.open .arrow { transform: rotate(180deg); }
+  .step-body { display: none; padding: 12px 14px 14px; border-top: 1px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+  .step.open .step-body { display: block; }
+  .section { margin-bottom: 10px; }
+  .section:last-child { margin-bottom: 0; }
+  .sec-label { font-size: 11px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
+  .items { list-style: none; }
+  .items li { font-size: 13px; color: var(--color-text-secondary); padding: 3px 0 3px 14px; position: relative; line-height: 1.5; }
+  .items li::before { content: "·"; position: absolute; left: 4px; color: var(--accent); font-size: 16px; line-height: 1.2; }
+  .method-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; margin-bottom: 6px; }
+  .tag-form { background: #E1F5EE; color: #0F6E56; }
+  .tag-meet { background: #EEEDFE; color: #534AB7; }
+  .tag-chat { background: #FAEEDA; color: #854F0B; }
+  .tag-sheet { background: #FAECE7; color: #993C1D; }
+  .method-note { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+</style>
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('all')">全工程</button>
+    <button class="tab" onclick="switchTab('1')">① 受注前</button>
+    <button class="tab" onclick="switchTab('2')">② 設計</button>
+    <button class="tab" onclick="switchTab('3')">③ 制作</button>
+    <button class="tab" onclick="switchTab('4')">④ 納品</button>
+  </div>
+
+  <div id="phase-all" class="phase active">
+
+    <div class="step" data-phase="1">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">1</div>
+        <div class="step-name">ヒアリング・問い合わせ対応</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>事業内容・サービス概要</li>
+            <li>現在のHP有無と課題感</li>
+            <li>制作目的（集客 / 採用 / 信頼構築 etc.）</li>
+            <li>想定予算・納期</li>
+            <li>競合・参考サイトURL</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-form">ヒアリングシート</span>
+          <p class="method-note">事前にGoogleフォームまたはNotionフォームを送付。「5分で回答できます」とひと言添えて送る。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="1">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">2</div>
+        <div class="step-name">提案・見積もり</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>ページ数・機能要件の確定</li>
+            <li>CMS対応の要否</li>
+            <li>多言語・予約システム等のオプション</li>
+            <li>保守・運用契約の有無</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-meet">オンラインMTG</span>
+          <p class="method-note">ヒアリングシートをもとに30分MTGを設定。不明点を埋めながら要件を確定させる。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="2">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">3</div>
+        <div class="step-name">サイト設計（構成・戦略）</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>ターゲット顧客像（年齢・職種・悩み）</li>
+            <li>メインの訴求ポイント・強み</li>
+            <li>CVポイント（問い合わせ / 資料DL / 電話 etc.）</li>
+            <li>サイトマップ（ページ構成）の合意</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-meet">MTG＋メモ共有</span>
+          <p class="method-note">設計MTGでホワイトボード共有しながら決定。終了後にNotionやGoogleドキュメントで議事録を送り、文章で合意を取る。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="2">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">4</div>
+        <div class="step-name">コンテンツ・素材収集</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>会社・サービスのロゴ（ai / png / svg）</li>
+            <li>写真素材（社内外観・スタッフ・サービス現場）</li>
+            <li>会社概要テキスト（沿革・代表プロフィール）</li>
+            <li>実績・導入事例（件数・クライアント名・数値）</li>
+            <li>FAQ・よくある質問</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-sheet">素材チェックシート</span>
+          <p class="method-note">Googleスプレッドシートで「必須 / 任意 / 代替可」の3段階で一覧化。Googleドライブのフォルダを作成して「ここに入れてください」と指示するのが最もスムーズ。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="2">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">5</div>
+        <div class="step-name">ライティング・コピー</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>キャッチコピーの方向性・NGワード</li>
+            <li>サービスの特徴・差別化ポイント（箇条書きでOK）</li>
+            <li>代表の想い・創業ストーリー</li>
+            <li>トーン＆マナー（堅め / 親しみやすい etc.）</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-sheet">コンテンツ記入シート</span>
+          <p class="method-note">「書けるところだけ書いてください」と伝え、Googleドキュメントのテンプレートを渡す。文章化は制作側がサポートする旨も明示しておく。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="3">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">6</div>
+        <div class="step-name">デザイン制作（ワイヤー→デザイン）</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>ブランドカラー・使用フォントの指定</li>
+            <li>好き / 嫌いな参考デザインURL（3〜5件）</li>
+            <li>デザイン修正は何回まで許容するか（契約上の確認）</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-chat">チャット＋FigmaURL</span>
+          <p class="method-note">ワイヤーフレーム確認はFigmaのリンクをChatworkかSlackで共有。コメント機能で修正依頼を入れてもらう形が履歴として残りやすい。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="3">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">7</div>
+        <div class="step-name">コーディング・STUDIO組み込み</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>独自ドメイン有無・希望ドメイン名</li>
+            <li>既存メールアドレス（＠ドメイン）の引き継ぎ有無</li>
+            <li>Googleアナリティクス / Search Consoleの設定要否</li>
+            <li>OGP画像・ファビコン素材</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-chat">チャット確認</span>
+          <p class="method-note">ドメイン情報はセキュリティに関わるため口頭・テキストでのやりとりを避け、共有ドキュメントへの記入を依頼。アクセス権限も都度確認。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="3">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">8</div>
+        <div class="step-name">テスト・修正確認</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>確認端末（PC / スマホ / タブレット）の優先度</li>
+            <li>修正・差し替え依頼の期限</li>
+            <li>最終承認者（担当者 or 経営者）の確認</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-sheet">テスト確認シート</span>
+          <p class="method-note">チェックリスト形式のGoogleスプレッドシートを渡し、OK/NG/修正内容を記入してもらう。「○日までにご記入ください」と期限を明示。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="4">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">9</div>
+        <div class="step-name">公開・ドメイン設定</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>公開日の確認（広告・SNS告知と合わせるか）</li>
+            <li>ドメイン管理会社のログイン情報（代理作業の場合）</li>
+            <li>旧サイトのリダイレクト設定の要否</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-meet">最終確認MTG</span>
+          <p class="method-note">公開前に5〜10分のオンラインMTGで最終チェック。公開後の「確認しました」の一言をもらうことでトラブル防止になる。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-phase="4">
+      <div class="step-head" onclick="toggle(this)">
+        <div class="num">10</div>
+        <div class="step-name">運用・保守・引き継ぎ</div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <div class="section">
+          <div class="sec-label">② 必要な情報</div>
+          <ul class="items">
+            <li>更新担当者・更新頻度の確認</li>
+            <li>STUDIOエディタの操作研修要否</li>
+            <li>月次レポート（アクセス解析）の要否</li>
+            <li>継続サポート契約の有無・範囲</li>
+          </ul>
+        </div>
+        <div class="section">
+          <div class="sec-label">③ 回収方法</div>
+          <span class="method-tag tag-form">引き継ぎチェックリスト</span>
+          <p class="method-note">操作マニュアル（Notion or PDF）を渡し、「できること / できないこと」を明記。継続契約の提案はこのタイミングがベスト。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function toggle(head) {
+  const step = head.closest('.step');
+  step.classList.toggle('open');
+}
+function switchTab(phase) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  const steps = document.querySelectorAll('.step');
+  steps.forEach(s => {
+    if (phase === 'all') {
+      s.style.display = '';
+    } else {
+      s.style.display = s.dataset.phase === phase ? '' : 'none';
+    }
+  });
+}
+</script>
